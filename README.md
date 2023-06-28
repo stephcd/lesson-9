@@ -15,7 +15,7 @@ The [`player`](https://docs.gridlabd.us/index.html?owner=arras-energy&project=gr
 
 ## Tasks
 
-1. Play a load into load 114 (see [`main.glm@11`](main.glm#L12-L18))
+1. Play [load data](load_114.csv) into load 114 (see [`main.glm@11`](main.glm#L12-L18))
 2. Record the voltage at load 114 (see [`main.glm@20`](main.glm#L21-L27))
 3. Setup the clock (see [`main.glm@29`](main.glm#L30-L35))
 4. Generate the voltage plot (see [`main.glm@37`](main.glm#L38))
