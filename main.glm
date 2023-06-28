@@ -1,0 +1,40 @@
+#ifmissing "123.glm"
+#model get IEEE/123
+#endif
+#include "123.glm"
+
+module tape
+{
+    csv_header_type NAME;
+}
+
+// Task 1 - Play a load into load 114
+object player
+{
+    parent load_114;
+    file "load_114.csv";
+    property "constant_power_A";
+    loop 7;
+}
+
+// Task 2 - Record the voltage at load 114
+object recorder
+{
+    parent load_114;
+    file "voltage_114.csv";
+    property "voltage_A.real";
+    interval 1h;
+}
+
+// Task 3 - Setup the clock
+clock
+{
+    timezone "PST+8PDT";
+    starttime "2020-07-01 00:00:00 PDT";
+    stoptime "2020-07-08 00:00:00 PDT";
+}
+
+// Task 4 - Generate the voltage plot
+#on_exit 0 gridlabd plot -i=voltage_114.csv -o=voltage_114.png --plot:grid
+
+#output "IEEE-123-voltage-profile.png" -t profile -l 10
