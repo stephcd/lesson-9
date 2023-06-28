@@ -26,6 +26,15 @@ object recorder
     interval 1h;
 }
 
+//Exercise - Add meter to load 114
+object meter
+{
+    name meter_114;
+    parent load_114;
+    phases AN;
+    nominal_voltage 2401.7711;
+}
+
 // Task 3 - Setup the clock
 clock
 {
