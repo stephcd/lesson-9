@@ -14,3 +14,22 @@ module powerflow;
 // Step 3: Include Objects
 // sub-steps
 // make a list of all objs you need
+// Draw / print circuit
+
+object overhead_line_conductor:100 { // the :100 is a label for obj ID
+  geometric_mean_radius 0.0244;
+  resistance 0.306; // info found in William Castings Distribution System Book
+}
+
+object overhead_line_conductor:101 {
+  geometric_mean_radius 0.00814;
+  resistance 0.592; 
+}
+
+object line_spacing: 200{
+  distance_AB 2.5; // units in ft
+  distance_BC 4.5; // AB, BC, AC are all phase combos
+  distance_AC 7.0;
+  distance
+}
+
