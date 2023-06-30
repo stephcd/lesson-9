@@ -2,10 +2,15 @@
 // Author: Stephany Correa-Diaz
 // Last Modified: June 30
 
-// Step 1: insert clock
+// Step 1: Insert Clock
 clock {
   timestamp '2000-01-01 0:00:00';
   timezone EST+5EDT; //time stamp and time zone are required for clock
 }
 
+// Step 2: Include Modules
+module powerflow;
 
+// Step 3: Include Objects
+// sub-steps
+// make a list of all objs you need
