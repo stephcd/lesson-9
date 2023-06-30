@@ -26,10 +26,106 @@ object overhead_line_conductor:101 {
   resistance 0.592; 
 }
 
-object line_spacing: 200{
+object line_spacing: 200 {
   distance_AB 2.5; // units in ft
   distance_BC 4.5; // AB, BC, AC are all phase combos
   distance_AC 7.0;
-  distance
+  distance_AN 5.656; // N means neutral
+  distance_BN 4.272;
+  distance_CN 5.0;
 }
+
+object line_configuration: 300 {
+  // creating relationship
+  conductor_A overhead_line_conductor:100; 
+  conductor_B overhead_line_conductor:100; 
+  conductor_C overhead_line_conductor:100; 
+  conductor_N overhead_line_conductor:101; // neutrals and phases have different line conductors
+  spacing line_spacing:200;
+}
+
+object transformer_configuration: 400 {
+  connect_type 1; // 1 means star grounded
+  power_rating 6000;
+  powerA_rating 2000; // in volt-amps
+  powerB_rating 2000;
+  powerC_rating 2000;
+  primary_voltage 12470; // in volts
+  secondary_voltage 4160;
+  resistance 0.01;
+  reactance 0.06;
+}
+
+// --------
+object node {
+  name node1;
+  phases "ABCN";
+  voltage_A +7200.00+0.0j; // spaces in the number will cause an error
+  voltage_B -3600-6235j;
+  voltage_C -3600+6235j;
+  nominal_voltage 7200;
+}
+
+// Node 1 <--> Node 2
+
+object overhead_line:12 {
+  phases "ABCN";
+  from node1;
+  to node2;
+  length 2000; //feet
+  configuration line_configuration: 300; // create relationship w/ other object
+}
+
+// -------
+object node {
+  name node2;
+  phases "ABCN";
+  voltage_A +7200.00+0.0j; // spaces in the number will cause an error
+  voltage_B -3600-6235j;
+  voltage_C -3600+6235j;
+  nominal_voltage 7200;
+}
+
+// Node 2 <--> Node 3
+// --------
+object node {
+  name node3;
+  phases "ABCN";
+  voltage_A +2401.777+0.0j; // spaces in the number will cause an error
+  voltage_B -1200-2080.000j;
+  voltage_C -1200+2080.000j;
+  nominal_voltage 2400;
+}
+object transformer:23 { // bc there is only the 2 circles in bn 2 and 3
+  phases "ABCN";
+  from node2;
+  to node3;
+  configuration transformer_configuration: 400;
+}
+
+// Node 3 <--> Load
+
+object overhead_line:34 {
+  phases "ABCN";
+  from node3;
+  to load4;
+  length 2500; //ft
+  configuration line_configuration: 300;
+}
+
+//-----
+object load {
+  name load4;
+  phases "ABCN";
+  voltage_A 2400+0.0j;
+  voltage_B -1200.889-2800.0j;
+  voltage_C -1200.889+2800.0j;
+  constant_power_A +1800000.0+871779.789j;
+  constant_power_B +1800000.0+871779.789j;
+  constant_power_C +1800000.0+871779.789j;
+  nominal_voltage 2400;
+}
+
+
+
 
