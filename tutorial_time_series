@@ -15,7 +15,7 @@ class player {
 // declare an instance of the above class --> obj
 object player {
   name Coolingplayer;
-  file thecoolingplayer.csv;
+  file househeat.csv;
   loop 3;
 }
 
