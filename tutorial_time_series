@@ -2,7 +2,7 @@ clock {
   timezone PST+8PDT;
   starttime '2017-07-10 00:00:00'; // this information goes into the A1 cell of the .csv file
   // right click, format cells, text; repaste if necessary (other cells might also need to be text)
-  // stoptime '2017-07-10 00:00:10'; either give stoptime, or loop
+  // stoptime '2017-07-10 00:00:10'; either give a stoptime or make a loop
 }
 
 module residential;
@@ -10,14 +10,39 @@ module tape;
 
 object house {
   // model a simple house w/ HVAC
+  name UniversityHousing;
   heating_setpoint 40 degF; // default is 40 deg F
   cooling_setpoint 90 degF;
+  
   // approach 1: player goes inside house
-  object player {
+  // object player { 
+    // property cooling_setpoint; // will not export data w/out a recorder
+    // file househeat.csv;
+    // loop 10;
+  // }
+
+// record what player is doing
+  object recorder {
+    file recorderproperties.txt;
     property cooling_setpoint;
-    file househeat.csv;
-    loop 10;
-  }
+  };
 }
 
   // approach 2: ref player to place outside of house
+object player { 
+  parent UniversityHousing;
+  property cooling_setpoint; // will not export data w/out a recorder
+  file househeat.csv;
+  loop 10;
+}
+
+
+
+
+
+
+
+
+
+
+
