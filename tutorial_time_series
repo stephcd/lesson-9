@@ -8,11 +8,23 @@ clock {
 module residential;
 module tape;
 
+class player {
+  double value;
+}
+
+// declare an instance of the above class --> obj
+object player {
+  name Coolingplayer;
+  file thecoolingplayer.csv;
+  loop 3;
+}
+
+
 object house {
   // model a simple house w/ HVAC
   name UniversityHousing;
   heating_setpoint 40 degF; // default is 40 deg F
-  cooling_setpoint 90 degF;
+  cooling_setpoint Coolingplayer.value*1.3+10;
   
   // approach 1: player goes inside house
   // object player { 
@@ -28,13 +40,24 @@ object house {
   };
 }
 
-  // approach 2: ref player to place outside of house
-object player { 
-  parent UniversityHousing;
-  property cooling_setpoint; // will not export data w/out a recorder
-  file househeat.csv;
-  loop 10;
+object house {
+  name WSUOffice;
+  heating_setpoint 40 degF;
+  cooling_setpoint Coolingplayer.value*1.5+15; 
+
+  object recorder {
+    file officerecorderproperties.txt;
+    property cooling_setpoint;
+  };
 }
+
+// approach 2: ref player to place outside of house
+// object player { 
+  // parent UniversityHousing;
+  // property cooling_setpoint; // will not export data w/out a recorder
+  // file househeat.csv;
+  // loop 10;
+// }
 
 
 
