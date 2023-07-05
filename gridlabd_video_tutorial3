@@ -1,0 +1,37 @@
+// Class Directive
+class test {
+  double p[W];
+}
+class test {
+  double t[s]; // adds t to test bc it already exists
+}
+class test {
+  complex p[VA] // will fail, verifies if complex and VA
+}
+
+// Clock
+// uses POSIX, COUNTRY/REGION/CITY (US/CA/SAN FRANCISCO), CONTINENT/CITY (AMERICA/SAN FRANCISCO), UTC
+
+// Filter Directive
+filter delay (z,5min,10s) = 1/z;
+filter delay8 (z,5min,10s,
+  resolution=8,
+  minimum=-2.5,
+  maximum=2.5) = 1/z;
+
+object example1 {
+  output1 filter11 (input1);
+  output1 filter21 (input2);
+  output2 filter12 (input1);
+  output2 filter22 (input2);
+}
+
+// Modify Directive
+class test2 {
+  double x[W];
+}
+object test1 {
+  name "first";
+  x "100 kw";
+}
+modify first.x 10 kW
