@@ -23,7 +23,7 @@ class test {
 }
 filter delay(z,60) = 1/z;
 object test {
-  x test*1.0+0.0; // copying schedule values
+  x test*1.0+0.0; // copying schedule values, not needed, but makes certain it runs
   y delay(x);
   object recorder {
     property x,y;
@@ -31,3 +31,10 @@ object test {
     interval -1; // record value when sometime changes
   };
 }
+
+// 
+
+
+
+
+
