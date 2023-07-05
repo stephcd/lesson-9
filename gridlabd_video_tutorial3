@@ -79,6 +79,16 @@ $ clock;
 // Starts new instance
 #gridlabd --version
 
+// Include Macro
+// includes glm files
+#include "/tmp/subtest.glm"
+#include [url]
+
+
+
+
+
+
 
 
 
