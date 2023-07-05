@@ -67,6 +67,7 @@ $ clock;
 // Input macro
 #wget url
 #curl url
+#input "data.csv" -f table -t object // -f is input, -t is output
 
 // For macro
 // for loop, like python
@@ -83,13 +84,73 @@ $ clock;
 // includes glm files
 #include "/tmp/subtest.glm"
 #include [url]
+#include using(A=1,B=2) // can define terms for a and b, if glm has A and B
+
+// Insert Macro
+// like include, adds glm files w/ test equal to something
+# for A in 1 2 3
+#insert subtest(TEST=test${A})
+#done
+
+subtest.glm(1) : TEST=test1
+subtest.glm(1) : TEST=test2
+subtest.glm(1) : TEST=test3
+
+// On Exit Macro
+// exit code should be 0, but can change it to rerun simulation
+#if ${X} < 9
+#on_exit 0 ${exename} -D X=$((${X}+!)) ${modelname}
 
 
+// Sleep Macro
+// stops for milliseconds
+#sleep 50
 
+// Start and Wait macros
+// don't know waittime
+#start ls
+#wait // starts once its done
 
+// Write Macro
+// generates data from model at any time (NOT FINAL VERSION OF DATA)
+#write /time/write.csv test1,test2:x,y
 
+// Inherit Prop
+// just copies values from parent
 
+// JSON Formatting
+class example {
+  complex z;
+}
+object example3 {
+  z "0-li";
+}
+object example4 {
+  z {real:0.0; imag:-1.0};
+}
+object example5 {
+  z {mag:0.0; ang:-1.0}; // magnitude and angle
+}
+object example4 {
+  z {mag:0.0; arg:-1.0}; // magnitude and argument (angle in radians)
+}
 
+// Randomization
+object example {
+  name obj;
+  x "type:normal(0.0,1.0): min:-3.0; max:+3.0;
+refresh:60"; //correlation:obj.x*-0.9 (for y value, adds correlation value)
+}
 
+// Property Expansions
+// if delay is needed to expand obj; for loops
+
+class example {
+  string s;
+}
+object example:..5 {
+  name '{class}_{id}';
+}
+#write data.csv name
 
 
