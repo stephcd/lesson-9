@@ -27,6 +27,8 @@ object example1 {
 }
 
 // Modify Directive
+// for when object already exists
+
 class test2 {
   double x[W];
 }
@@ -34,4 +36,50 @@ object test1 {
   name "first";
   x "100 kw";
 }
-modify first.x 10 kW
+modify first.x 10 kW // use period to separate name and variable
+
+// Script Directive
+// runs external code
+script my_code.sh;
+
+script export clock;
+script on_init echo
+$ clock;
+// Values for on
+// Create is for after .glm is loaded but before simulation initializes
+// init, after initialization is completed
+// precommit, before clock update occurs
+// presync, sync, postsync, during parent child hierarchy during clock update until all objects report that they can move their clocks forward
+// commit, after objects report clocks move forward
+// term, called when simulation is done and begins termination sequence (saving data...)
+
+// Python
+// use #begin python and #end to code in python
+
+// Define marco
+// Auto creates and can set existing values
+#define TEST=123
+
+// Set marco
+// only for existing values
+#set strictnames=TRUE // override
+
+// Input macro
+#wget url
+#curl url
+
+// For macro
+// for loop, like python
+#for A in 1 2 3 4 
+  #print A=${A}
+#done
+
+
+// Gridlabd Macro
+// Starts new instance
+#gridlabd --version
+
+
+
+
+
