@@ -1,5 +1,5 @@
 // Exercise
-module tape {
+module tape { // NEEDED FOR RECORDER
   csv_headter_type NAME;
 }
 
@@ -10,7 +10,7 @@ clock {
 }
 
 schedule test {
-  * 9-17 * * 1-5 1.0;
+  * 9-17 * * 1-5 1.0; // min, hrs, day of month, month of year, weekdays, value
   * 9-17 * * 6 0.5;
   * 9-17 * * 0,7 0.0;
   * 18-8 * * * 0.0; // account for entire schedule, 24hrs, 7 days a week
@@ -23,11 +23,11 @@ class test {
 }
 filter delay(z,60) = 1/z;
 object test {
-  x test*1.0+0.0;
+  x test*1.0+0.0; // copying schedule values
   y delay(x);
   object recorder {
     property x,y;
     file data.csv;
-    interval -1;
+    interval -1; // record value when sometime changes
   };
 }
