@@ -1,0 +1,33 @@
+// Exercise
+module tape {
+  csv_headter_type NAME;
+}
+
+clock {
+  timezone America/Los Angeles;
+  starttime "2022-01-01 00:00:00 PST"
+  stoptime "2022-02-01 00:00:00 PST"
+}
+
+schedule test {
+  * 9-17 * * 1-5 1.0;
+  * 9-17 * * 6 0.5;
+  * 9-17 * * 0,7 0.0;
+  * 18-8 * * * 0.0; // account for entire schedule, 24hrs, 7 days a week
+  *
+}
+
+class test {
+  double x; // introduces variables
+  double y;
+}
+filter delay(z,60) = 1/z;
+object test {
+  x test*1.0+0.0;
+  y delay(x);
+  object recorder {
+    property x,y;
+    file data.csv;
+    interval -1;
+  };
+}
