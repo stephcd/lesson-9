@@ -32,9 +32,13 @@ object test {
   };
 }
 
-// 
+// Input data
+// only GLM file is copied to test folder
+#ifexist ../input.csv
+#set SRC:.. // input fnc
+#endif
 
-
-
-
+object player {
+  file ${SRC:-.}/input.csv;
+}
 
