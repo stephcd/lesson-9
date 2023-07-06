@@ -1,0 +1,30 @@
+// Exercise 4 Soln
+// Create validation test for filter directive when applied as integrator
+// Transfer fnc for discrete integrator: integrator (z) = 1/(z-1)
+
+module tape {
+  csv_header_type NAME; // stops confusion to sys from original file has one timestamp, and the test file has another
+}
+clock {
+  timezone "PST+8PDT";
+  starttime "2020-01-01 00:00:00 PST";
+  stoptime "2020-01-02 00:00:00 PST"; // one day is good bc it records every min to lower time to run
+}
+#set randomseed=1 // IMPORTANT, makes sequence repeatable, start #
+filter integrate(z,60s) = 1/(z-1); // update filter every min, calculate fnc to make output from input
+class test {
+  randomvar input;
+  double output;
+}
+object test {
+  input "type:normal(0,1); refresh:60s"; // mean of 0 and stan deviation of 1, integrates every min
+  output integrate(input); // runs fnc
+  object recorder {
+    file "test_integrate.csv";
+    interval 60s;
+    property input,output;
+  };
+}
+#ifexist "../test_integrate.csv" // runs comparison of org and new file
+#on_exit 0 diff ../test_integrate.csv test_integrate.csv > gridlabd.diff // difference is stored in gridlabd.diff file, causes fail
+#endif
