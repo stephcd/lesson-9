@@ -28,3 +28,82 @@ object test {
 #ifexist "../test_integrate.csv" // runs comparison of org and new file
 #on_exit 0 diff ../test_integrate.csv test_integrate.csv > gridlabd.diff // difference is stored in gridlabd.diff file, causes fail
 #endif
+
+
+// Tape Module
+
+module tape {
+  // Control when/how output buffers are flushed
+  flush_interval 0; // 0: buffer, >0: seconds, <0: samples
+  csv_keep_clean 0; // 0: no, 1: yes
+
+// makes sure that .csv file has a complete line in output, partial lines happen during buffering
+// can add 1 to make sure lines are always complete
+
+
+  // Control format of output file
+  csv_data_only 0; // 0: full header, 1: none, 2: field names
+  csv_header_type FULL; // FULL=0, NONE=1, NAME=2 (see above)
+}
+
+// Player Class
+// limit to # of players that can be in simul (1024), limit from op system
+// can use 1 player to play into other objects, transform to filter
+
+class player {
+  char256 property; // prop/column to play values into
+  char 1024 file; // REQUIRED, file from which to read values
+  int32 loop; // times to loop player, only if has +1h (delta timesteps), first value has to have a specific time
+}
+
+object player {
+  file "includes_property_name_in_row_0.csv";
+  // don't need to list props
+}
+
+
+// Collector Class
+// records aggregation of props, not the prop
+
+class collector {
+  char1024 file; // REQUIRED, file in which to store data
+  method property; // REQUIRED, property and aggregation to use, includes aggregation fnc
+  char 32 trigger; // recording starts once condition is fulfilled (ex: "value>0")
+  int32 limit; // maximum # of samples ot collect
+  char256 group; // group characterstic (ex: "class=house"), limits to house obj, no need for parent then
+  double interval[s]; // sampling interval (<0:changed, 0:iternation)
+  int32 flush; // row flush mode (-1=full, 0=row, >0=seconds)
+// full is wait until module buffers, row is flush when new row is generated, sec is bn flushes
+}
+
+object collector {
+  parent "house_1";
+  file "collector_output.csv";
+  property "min(air_temperature),max(air_temperature)"; // prop: air temp, recording min and max temp in the hour
+// aggregators: avg, stan dev, median, statsss
+
+  interval 3600; // in secs
+  limit 768;
+}
+
+// Recorder Class
+// records properties
+
+class recorder {
+  char1024 file; // REQUIRED, file in which to record data
+  method property; // REQUIRED, list of properties to sample
+  char32 trigger; // condition to trigger recorder
+  char8 filetype; // file type to use when storing data
+  char32 mode; // recorder operating mode (w or a)
+  int32 limit; // limit on # of rows to record (0=none)
+  int32 flush; // row flush mode (-1=full, 0=row, >0=seconds)
+  double intervals[s]; // sampling interval (<0:changed, 0:iteration)
+  char256 strftime_format; // can specify your own date/time format (see strftime) 
+  enumeration {NONE=2, ALL=1, DEFAULT=0} header_units; // default NONE, this is the location of the units in the file
+  enumeration {NONE=2, ALL=1, DEFAULT=0} line_units; // default ALL, names in data itself
+}
+object recorder {
+  file "recorder_output.csv";
+  property "air_temperature[degC],mass_temperature[degC]";
+}
+// specifies unit, converts F to C above
