@@ -1,5 +1,5 @@
 // Exercise 4 Soln
-// Create validation test for filter directive when applied as integrator
+// Create VALIDATION TEST for filter directive when applied as integrator
 // Transfer fnc for discrete integrator: integrator (z) = 1/(z-1)
 
 module tape {
@@ -107,3 +107,21 @@ object recorder {
   property "air_temperature[degC],mass_temperature[degC]";
 }
 // specifies unit, converts F to C above
+
+
+// Histogram Class
+// like recorder, look across groups of values like collector, records # of observ of value within bins specified
+
+class histogram {
+  char1024 filename; // name of file to write
+  char256 property; // property to sample
+  char1024 group; // group expression to use for histogram
+  char1024 bins; // specific bin values to use
+  double min; // min value of auto-sized bins to use
+  double max; // max value of auto-sized bins to use
+  double samplerate[s]; // rate samples are read at
+  double countrate[s]; // rate bins are ocunted and written
+  int32 bin_count; // # of auto-sized bins to use
+  int32 limit; // # of histograms to record 
+
+}
